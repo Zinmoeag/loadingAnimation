@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Squit Progress</title>
+	<style type="text/css">
+		body{
+			margin: 0;
+			background: rgb(54, 47, 47);
+			min-height: 100vh;
+			display: flex; align-items: center; 
+			justify-content: center;
+		}
+
+		:root{
+			--btn-width: 200px;
+			--btn-height: 70px;
+			--bar-color: rgb(83, 83, 83);
+			--fluid-color: rgb(49, 208, 176);
+			--squite-ani-timming : 1000ms;
+			--progress-ani-timming : 1500ms;
+			--complete-progress-timming : calc(var(--squite-ani-timming) + var(--progress-ani-timming));
+			--check-container-timming: 500ms;
+			--checkmark-timming: 1000ms;
+		}
+
+		.btn{
+			background: rgb(83, 83, 83);
+			position: relative;
+			color: white;
+			border-radius: 10px;
+			font-weight: bold;
+			width: var(--btn-width); height:var(--btn-height);
+			border: none;
+			cursor: pointer;
+			font-size: 1.3rem;
+		}
+
+		.btn.animate{
+			user-select: none;
+			background: transparent;
+			color: transparent;
+			cursor: default;
+			animation: hide 0ms var(--complete-progress-timming) forwards;
+		}
+
+		.btn::before{
+			content: "";
+			display: none;
+			background: var(--bar-color);
+			position: absolute;
+			border-radius: 10px;
+			border: none;
+			inset: 0;
+		}
+
+		.btn::after{
+			content: "";
+			display: none;
+			background: var(--fluid-color);
+			position: absolute;
+			border-radius: 10px;
+			border: none;
+			left: 51%;
+			right: 51%;
+			top: 43%;
+			bottom: 43%;
+		}
+
+		.btn.animate + .checkmark-container{
+			display: flex; align-items: center; justify-items: center;
+			animation: makecontainer var(--check-container-timming) calc(var(--complete-progress-timming)) forwards;
+		}
+
+		.btn.animate + .checkmark-container svg{
+			width: 40px;
+			stroke-dasharray: 43;
+		    stroke-dashoffset: 43; 
+		    animation: apper-check var(--checkmark-timming) calc(var(--complete-progress-timming) + var(--check-container-timming)) forwards;
+		}
+
+
+		.btn.animate + .checkmark-container .checkmark{
+			fill: none;
+			stroke: white;
+			stroke-width:3px;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			
+		}
+
+		.btn.animate::before, .btn.animate::after{
+			display: block;
+		}
+
+		.btn.animate::before{
+			animation: squite var(--squite-ani-timming)  forwards;
+		}
+
+		.btn.animate::after{
+			animation: progress var(--progress-ani-timming) var(--squite-ani-timming) linear forwards;
+		}
+
+		@keyframes squite {
+			100%{
+				left: -50%;
+				right: -50%;
+				top: 43%;
+				bottom: 43%;
+			}
+		}
+
+		@keyframes progress {
+			100%{
+				left: -50%;
+				right: -50%;
+			}
+		}
+
+		@keyframes hide {
+			100%{
+				width: 0; height: 0; padding: 0;
+			}
+		}
+
+		@keyframes makecontainer {
+			0%{
+				background: var(--bar-color);
+				padding: 0;
+				width: calc(var(--btn-width) * 2);
+				height:calc(var(--btn-height) * 0.14);
+				border-radius: 10px;
+			}
+			100%{
+				width: 90px; height: 90px;
+				padding: 0;
+				display: flex; align-items: center;
+				justify-content: center;
+				border-radius: 50%;
+				background: var(--fluid-color);
+
+			}
+		}
+
+		@keyframes apper-check {
+			100%{
+				stroke-dashoffset: 0;
+			}
+		}
+
+
+	</style>
+</head>
+
+<body>
+	<button type="button" class="btn">Progress</button>
+	<div class="checkmark-container">
+
+		<svg x="0px" y="0px"
+		 viewBox="0 0 25 30"
+		 class="checkmark"
+		>
+	    	<path class="check" class="st0" d="M2,19.2C5.9,23.6,9.4,28,9.4,28L23,2"/>
+	    </svg>
+	</div>
+</body>
+
+	<script type="text/javascript">
+		const btn = document.querySelector(".btn");
+		const path = document.querySelector("path");
+		const svg = document.querySelector("svg");
+
+		svg.setAttribute("data-path-length",path.getTotalLength());
+
+		btn.onclick = () => {
+			btn.classList.add("animate");
+		}
+
+
+	</script>
+</html>
