@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Code Bar Animation</title>
+	<style type="text/css">
+		body{
+			display: flex; align-items: center; justify-content: center;
+			flex-direction: column;
+			height: 80vh;
+			background: #16181b;
+			padding: 0;
+			margin: 0;
+		}
+		:root{
+			
+			--container-width : 600px;
+			--cells: 75;
+			--unit: calc(var(--container-width) / var(--cells));
+			--defaultColor: #2c2d2f;
+			--red: #f04a4c;
+			--yellow: #fbc531;
+			--cyan: #2fc4c0;
+			--orange: #ee4629;
+		}
+
+		.display-box{
+			padding: calc(var(--unit) * 2);
+			border-radius: 10px;
+			border: calc(var(--unit) / 2) solid var(--defaultColor);
+		}
+		.container{
+			overflow: hidden;
+	
+			width:var(--container-width) ; margin: auto;
+			height: fit-content;
+			display: flex;align-items: center; justify-content: center;
+			gap: var(--unit);
+			flex-direction: column;
+
+		}
+
+		.btn-container{
+			display: flex; align-items: center; justify-content: center;
+		}
+
+		.btn-container button{
+			border: none;
+			color: white;
+			padding: 10px 40px;
+			background: var(--red);
+			transition: all 0.5	s;
+
+		}
+
+		.btn-container button:hover{
+
+			background: var(--orange);
+		}
+
+		.row{
+			display: flex;
+			flex-direction: row;
+			height: var(--unit);
+			gap: var(--unit);
+			transform: translate(25%);
+		}
+
+		.container.justify .row{
+			animation: justify 500ms calc(var(--delay) * 200ms) forwards;
+		}
+
+		.row:nth-child(even){
+			transform: translate( -25%);
+
+		}
+
+
+		.container.slideAway .row{
+			animation: slide 900ms calc(var(--delay) * 200ms) both;
+		}
+
+		.container.slideAway .row:nth-child(2n){
+			--direction: -1;
+		}
+
+		.cell{
+			width: calc(var(--unit) * var(--size)); height: var(--unit);
+			background: var(--defaultColor);
+			border-radius: 1000px;
+		}
+
+		.size-2{--size: 2;}
+		.size-3{--size: 3;}
+		.size-4{--size: 4;}
+		.size-5{--size: 5;}
+		.size-6{--size: 6;}
+		.size-7{--size: 7;}
+		.size-8{--size: 8;}
+		.size-9{--size: 9;}
+
+		.red{background: var(--red);}
+		.yellow{background: var(--yellow);}
+		.cyan{background: var(--cyan);}
+		.orange{background: var(--orange);}
+
+		/*animation delay*/
+
+		.container.justify .row:nth-child(1){--delay: 1}
+		.container.justify .row:nth-child(2){--delay: 2}
+		.container.justify .row:nth-child(3){--delay: 3}
+		.container.justify .row:nth-child(4){--delay: 4}
+		.container.justify .row:nth-child(5){--delay: 5}
+		.container.justify .row:nth-child(6){--delay: 6}
+		.container.justify .row:nth-child(7){--delay: 7}
+		.container.justify .row:nth-child(8){--delay: 8}
+		.container.justify .row:nth-child(9){--delay: 9}
+		.container.justify .row:nth-child(10){--delay: 10}
+		.container.justify .row:nth-child(11){--delay: 11}
+		.container.justify .row:nth-child(12){--delay: 12}
+		.container.justify .row:nth-child(13){--delay: 13}
+		.container.justify .row:nth-child(14){--delay: 14}
+		.container.justify .row:nth-child(15){--delay: 15}
+		.container.justify .row:nth-child(16){--delay: 16}
+		.container.justify .row:nth-child(17){--delay: 17}
+		.container.justify .row:nth-child(18){--delay: 18}
+		.container.justify .row:nth-child(19){--delay: 19}
+
+
+		@keyframes justify {
+			100%{
+				transform: translate(0);
+			}
+		}
+
+
+		@keyframes slide {
+			0%{
+				transform: translate(0);
+			}
+			100%{
+				transform: translate(calc(var(--container-width) * var(--direction,1)));
+			}
+		}
+
+	</style>
+</head>
+<body>
+	<div class="display-box">
+		<section class="container"></section>
+	</div>
+	
+	<div class="btn-container">
+		<button type="button">Start</button>
+	</div>
+	
+</body>
+	<script type="text/javascript">
+
+		// auto fill system implementation -------
+		// function fill(obj){
+
+		//   let unit=10; 
+		//   let cells = 64;
+		//   let rowArr = [];
+		  
+		//   let previousPoint = null;
+
+		//   for(let point in obj){
+		//   	point = Number(point);
+		//   	let startingPoint = 0;
+		//   	let endpoint = cells;
+		//   	let target = previousPoint ? point - previousPoint : point ;
+
+		//     let sum = 0;
+		//     let nodeArr =[];
+		//     while(sum < target){
+		//       const randomNumber = Math.floor(Math.random()*10);
+		//       if(randomNumber === 0) continue
+		//       if(randomNumber === 1) continue
+		//       if(randomNumber === 2) continue
+		//       sum += randomNumber;
+		//       nodeArr.push(randomNumber);
+		//     }
+		    
+		//     if(sum > target){
+		//      const last = nodeArr.pop()
+		//       const diff = sum - target;
+		//       let newVal = last - diff
+		//       if(newVal === 1){
+		//       	let minVal = Math.min(...nodeArr);
+		//       	nodeArr[nodeArr.indexOf(minVal)] += 1;
+		//       }else{
+		//       	nodeArr.push(newVal)
+		//       }
+		      
+		//     }
+
+		//     previousPoint = point + obj[point];
+
+		//     nodeArr.push(String(obj[point] + 1))
+
+		//     rowArr.push(...nodeArr)
+ 			
+		//   }
+
+		//   let gapFilter = rowArr.map((item, i) => i === 0 ? item : (typeof(item) === "string")? String(item - 1) : item - 1);
+		//   return gapFilter;
+		// }
+
+		const btn = document.querySelector("button");
+		class CodeBar{
+
+			#container;
+
+			constructor()
+			{
+				this.container = document.querySelector(".container");
+			}
+
+			makerow(arr){
+				let rowEl = document.createElement("div");
+				rowEl.classList.add("row");
+
+				for(let i =0; i < arr.length; i++){
+					let cell = document.createElement("div");
+					cell.classList.add("cell");
+					cell.classList.add(`size-${arr[i]}`);
+
+					//cell highlighting
+
+					if(typeof(arr[i]) === "string"){
+						let random = Math.floor((Math.floor(Math.random() * 10)) / 3);
+						let color;
+						switch(random){
+							case 0:
+								color = "red"
+								break
+							case 1:
+								color = "yellow"
+								break
+							case 2:
+								color = "cyan"
+								break
+							case 3:
+								color = "orange"
+								break
+						}		
+						cell.classList.add(color);
+					}
+
+					rowEl.append(cell);
+				}
+				
+				this.container.append(rowEl);
+			}
+
+			start(){
+				this.container.classList.add("justify")
+			}
+
+			slideAway(){
+				this.container.classList.add("slideAway")
+			}
+		}
+
+
+		let codebar = new CodeBar();
+		codebar.makerow([6,4,5,6,7,2,4,3,2,9,3]);
+		codebar.makerow([3,2,8,4,9,"2","2",6,4,3]);
+		codebar.makerow([4,8,2,3,2,6,2,"5",6,2,4,3,2]);
+		codebar.makerow([4,7,"3",3,2,7,"2","2",2,"3",4,6,2]);
+		codebar.makerow([6,6,"6",3,5,3,"5",3,"3","2",7,7]);
+		codebar.makerow([4,3,"2","6",7,4,"5",4,"9",6,3]);
+		codebar.makerow([2,3,"9",3,7,4,"5",2,7,"6","2",2,5]);
+		codebar.makerow([6,"4","2",7,2,4,4,"2","2",2,5,7,"7",8]);
+		codebar.makerow([2,3,"4","4",9,4,"5",4,7,"9",2,5]);
+		codebar.makerow([4,3,"6","2",2,7,"5",4,4,"2","7",6,3]);
+		codebar.makerow([2,6,"6",7,"5",5,3,"6",4,2,3]);
+		codebar.makerow([2,3,2,2,"3",6,"5",2,3,2,"3",4,6,2]);
+		codebar.makerow([2,6,2,5,"2","2",6,2,4,7,2]);
+		codebar.makerow([6,7,7,"5",6,3,7,7,4]);
+		codebar.makerow([6,5,5,6,7,2,4,3,2,9,3]);
+
+		btn.onclick = () => {
+			codebar.start();
+		}
+
+		const rows = document.querySelectorAll(".row");
+
+		//slide away after justify animation		
+		rows[rows.length - 1].addEventListener("animationend",function(){
+			codebar.slideAway();
+		})
+	</script>
+</html>
